@@ -1,0 +1,120 @@
+<<<<<<< HEAD
+
+         .table-search{
+         border:none;
+         width:100%;
+         }
+         .table-search th, .table-search td {
+    padding: 8px 16px;
+    font-size: 15px;
+}
+         .table-search thead{
+         background: #ececec;
+         }
+          .search  .search-input {
+            text-align: -webkit-center;
+            text-align: center;
+            position: relative;
+            z-index: 100;
+
+          }
+          .search-input a {
+    float: right;
+    position: absolute;
+    top: 14px;
+    right: 36px;
+    z-index: 105;
+    text-decoration: none;
+    font-weight: normal;
+    color: #bbb;
+}
+
+          .search-input .search-text,
+          .search-input .search-text:focus{
+              border: none !important;            
+              outline: none !important;
+          }      
+          .hide{
+            display:none;
+          }
+         
+#search_panel .modal-body {
+    padding: 0;
+    min-height: 300px;
+    overflow: hidden;
+    border-radius: 33px;
+}
+.search-input .search-text {
+    line-height: 30px;
+    padding-left: 33px;
+}
+.form-group.search-input {
+    margin-bottom: 0;
+}
+.table-search td {
+    border-bottom: 1px solid #eee;
+}
+.table-search a {
+    color: #000;
+    text-decoration: underline;
+=======
+
+         .table-search{
+         border:none;
+         width:100%;
+         }
+         .table-search th, .table-search td {
+    padding: 8px 16px;
+    font-size: 15px;
+}
+         .table-search thead{
+         background: #ececec;
+         }
+          .search  .search-input {
+            text-align: -webkit-center;
+            text-align: center;
+            position: relative;
+            z-index: 100;
+
+          }
+          .search-input a {
+    float: right;
+    position: absolute;
+    top: 14px;
+    right: 36px;
+    z-index: 105;
+    text-decoration: none;
+    font-weight: normal;
+    color: #bbb;
+}
+
+          .search-input .search-text,
+          .search-input .search-text:focus{
+              border: none !important;            
+              outline: none !important;
+          }      
+          .hide{
+            display:none;
+          }
+         
+#search_panel .modal-body {
+    padding: 0;
+    min-height: 300px;
+    overflow: hidden;
+    border-radius: 33px;
+}
+.search-input .search-text {
+    line-height: 30px;
+    padding-left: 33px;
+}
+.form-group.search-input {
+    margin-bottom: 0;
+}
+.table-search td {
+    border-bottom: 1px solid #eee;
+}
+.table-search a {
+    color: #000;
+    text-decoration: underline;
+>>>>>>> 3b58e2bbdfef21cf1f65d3529593a52bdb08bc7a
+}

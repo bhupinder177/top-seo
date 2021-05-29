@@ -1,0 +1,182 @@
+/*
+	 CSS-Tricks Example
+	 by Chris Coyier
+	 http://css-tricks.com
+*/
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i,900&display=swap');
+* { margin: 0; padding: 0; }
+body { font: 14px/1.4 'Roboto', sans-serif; }
+#page-wrap { sbackground: #f7f7f7; padding: 10px;  }
+
+textarea { border: 0; font: 14px 'Roboto', sans-serif; overflow: hidden; resize: none; }
+table { border-collapse: collapse; }
+table td, table th { border: 1px solid #ddd; padding: 5px; }
+
+/*#header { height: auto; width: 100%; margin: 20px 0; text-align: center; color: white; font: bold 15px Helvetica, Sans-Serif; text-decoration: uppercase; letter-spacing: 20px; padding: 8px 0px; }*/
+#header1 { height: 56px; width: 100%; margin: 20px 0; background: #2220; text-align: center; color: white; font: bold 15px Helvetica, Sans-Serif; text-decoration: uppercase; letter-spacing: 20px; padding: 8px 0px; }
+
+/*#address { width: 250px; height: 40px; float: left; }*/
+#customer { overflow: hidden; padding: 0 10px;margin-top: 60px;}
+
+#logo { text-align: right; float: right; position: relative; margin-top: 25px; border: 1px solid #fff; max-width: 540px; max-height: 100px; overflow: hidden; }
+#logo:hover, #logo.edit { border: 1px solid #ddd; margin-top: 0px; max-height: 125px; }
+#logoctr { display: none; }
+#logo:hover #logoctr, #logo.edit #logoctr { display: block; text-align: right; line-height: 25px; background: #eee; padding: 0 5px; }
+#logohelp { text-align: left; display: none; font-style: italic; padding: 10px 5px;}
+#logohelp input { margin-bottom: 5px; }
+.edit #logohelp { display: block; }
+.edit #save-logo, .edit #cancel-logo { display: inline; }
+.edit #image, #save-logo, #cancel-logo, .edit #change-logo, .edit #delete-logo { display: none; }
+#customer-title { font-size: 16px; font-weight: bold; float: left; }
+
+#meta { margin-top: 1px; width: 250px; float: right; }
+#meta td { text-align: right;  }
+#meta td.meta-head { text-align: left; background: #eee; }
+#meta td textarea { width: 100%; height: 20px; text-align: right; }
+
+#items { clear: both; width: 100%; margin: 30px 0 0 0; border: 1px solid #dddddd; }
+/*#items th { background: #eee;    color: #000; }*/
+#items tr.item-row td { vertical-align: top; }
+#items td.description { width: 300px; }
+#items td.item-name {
+    width: 175px;
+    padding: 11px 0 0 15px;
+}
+#items td.description textarea, #items td.item-name textarea { width: 100%; }
+#items td.total-line {  text-align: left; }
+#items td.total-value { border-left: 0; padding: 10px; }
+#items td.total-value textarea { height: 20px; background: none; }
+#items td.balance { background: #eee; }
+#items td.blank { border: 0; }
+
+#terms { text-align: center; margin: 20px 0 0 0; }
+#terms h5 { text-transform: uppercase; font: 13px Helvetica, Sans-Serif; letter-spacing: 10px; border-bottom: 1px solid black; padding: 0 0 8px 0; margin: 0 0 8px 0; }
+#terms textarea { width: 100%; text-align: center;}
+
+textarea:hover, textarea:focus, #items td.total-value textarea:hover, #items td.total-value textarea:focus, .delete:hover { background-color:#d5f2ff; }
+.delete-wpr {   position: relative;  }
+.delete {
+    display: block;
+    color: #000;
+    text-decoration: none;
+    position: absolute;
+    background: #EEEEEE;
+    font-weight: bold;
+    padding: 0px 3px;
+    border: 1px solid;
+    top: 11px;
+    left: -15px;
+    font-family: Verdana;
+    font-size: 8px;
+}
+/* select */
+/*
+select#address {
+	 border: 0px;
+	outline: 0px; 
+  -webkit-appearance: button;
+ -webkit-border-radius: 2px;
+ -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+ -webkit-padding-end: 20px;
+ -webkit-padding-start: 2px;
+ -webkit-user-select: none;
+ background-image: url(../images/select-arrow.png),
+   -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
+ background-position: center right;
+ background-repeat: no-repeat;
+ border: 1px solid #AAA;
+ color: #555;
+ font-size: inherit;
+ margin: 0;
+ overflow: hidden;
+ padding-top: 2px;
+ padding-bottom: 2px;
+ text-overflow: ellipsis;
+ white-space: nowrap;
+ width:250px;
+ margin-right: 10px;
+}
+*/
+
+/*
+div#identity select, div#identity textarea {
+        background: #fbfbfb;
+    padding: 4px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    margin-right: 20px;
+    height: 35px;
+    color: #555 !important;-webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+}
+*/
+
+/*
+div#identity select:nth-child(3), div#identity textarea:nth-child(6),div#identity textarea:last-child {
+    margin-right: 0 !important;
+}
+*/
+table#items tr {
+    border-left: 1px solid #ddd;border-right: 1px solid #ddd;
+}
+input.btn.btn-success {
+    background: #3c8dbc;
+    border: 1px solid #3c8dbc;
+    margin-top: 10px;
+}
+
+
+table#items tr:last-child {
+    border-bottom: 1px solid #ddd;
+}
+
+tr.item-row.ng-scope textarea {
+    max-width: 100%;     width: 100%;
+    display: block;padding: 5px;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #555;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: #555;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: #555;
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: #555;
+}
+
+a#addrow {
+    background: #55abdc;
+    padding: 6px 15px;
+    border-radius:20px;
+    color: #fff;
+    font-weight: 600;
+    margin: 0 auto;
+    display: inline-block;
+}
+a.delete.ng-scope {
+    cursor: pointer;
+}
+
+
+/*
+.pdf-main div#identity #address {
+    width: 250px;
+    height: auto;
+    padding-left: 13px;
+    float: right;
+    padding-bottom: 10px;
+}
+*/
+/*
+#identity{float: right;}
+
+
+
+@media(max-width: 767px)
+{
+  #identity{float: none;padding: 0 15px;}#meta {margin-top: 20px;width: 250px;float: left; }
+}
+*/

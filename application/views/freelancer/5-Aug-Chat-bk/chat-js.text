@@ -1,0 +1,1050 @@
+
+var app1 = angular.module('myApp1',['luegg.directives'])
+
+app1.filter('time', function () {
+return function (item) {
+var dates = new Date(Date.parse(item))
+var minutes = dates.getMinutes();
+if(minutes > 10)
+{
+  var time = '' + dates.getHours() + ':' + dates.getMinutes();
+}
+else
+{
+  var time = '' + dates.getHours() + ':'+'0'+dates.getMinutes();
+}
+//console.log(time);
+return time;
+};
+});
+
+app1.filter('date', function () {
+return function (item) {
+const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+"Jul", "Aug", "Sept", "Oct", "Nov", "Dec"
+];
+var dates = new Date(Date.parse(item))
+var newDate = '' + dates.getDate() + ' ' + (monthNames[dates.getMonth()]) + ', ' + dates.getFullYear();
+return newDate;
+};
+});
+
+app1.filter('trustAsHtml',['$sce', function($sce) {
+
+return function(text) {
+
+return $sce.trustAsHtml(text);
+};
+}]);
+
+
+
+app1.directive('ngEnter', function () {
+return function (scope, element, attrs) {
+element.bind("keydown keypress", function (event) {
+  if (event.which === 13) {
+    scope.$apply(function () {
+      scope.$eval(attrs.ngEnter);
+    });
+
+    event.preventDefault();
+  }
+});
+};
+});
+
+
+
+
+
+app1.controller('myCtrt1', function($scope,$window,$http,$interval) {
+
+$scope.glued = true;
+$scope.person = [];
+$scope.messages = [];
+$scope.results='';
+$scope.getmessage ='';
+$scope.userId ='';
+$scope.username ='';
+$scope.userType ='';
+$scope.userimage ='';
+$scope.selectedContact = 0;
+$scope.selectedContactImage ='';
+$scope.msgtext ='';
+$scope.attachment ='';
+$scope.jobtitle ='';
+$scope.contractId ='';
+$scope.filterValue = '';
+$scope.msg ='';
+$scope.editmsg ='';
+$scope.offerId ='';
+$scope.milestone = '';
+$scope.milestones =[];
+$scope.offerTotal = 0;
+$scope.proposal ='';
+$scope.time ='';
+$scope.roomId ='';
+$scope.typingLENGTH =500;
+$scope.lastTypingTime='';
+$scope.typing = false;
+$scope.chattype = 1;
+$scope.groupname = '';
+$scope.group = [];
+// $scope.selectedgroupId = '';
+$scope.selectmember = [];
+$scope.grouptypinguser =[];
+$scope.p = [];
+$scope.plan = [];
+$scope.skip = 1;
+ //var socket = io('https://top-seo-sockets.herokuapp.com');
+var socket = io('http://localhost:5000');
+
+$scope.socketjoinchat = function (id)
+{
+socket.emit('join-chat', { senderId: '<?php echo $this->session->userdata['clientloggedin']['id']; ?>',receiverId : id });
+}
+
+$scope.socketjoingroup = function (id)
+{
+socket.emit('join-group', { groupId: id });
+}
+
+socket.on('typing', function(data)
+{
+$scope.t = 1;
+$scope.typinguser = data.sendername;
+});
+
+socket.on('addmember', function(data)
+{
+if(data)
+{
+  $scope.selectmember = [];
+  $("#addmember").modal('hide');
+}
+});
+
+
+socket.on('stoptyping', function(data)
+{
+$scope.t = 0;
+});
+
+socket.on('deletemessage', function(data)
+{
+
+for(var v in $scope.messages[data.MSG_ROOMID])
+{
+  if($scope.messages[data.MSG_ROOMID][v]['_id'] == data.id)
+  {
+    $scope.messages[data.MSG_ROOMID][v]['MSG_DELETE'] = data.MSG_DELETE;
+  }
+}
+$scope.$apply();
+});
+
+socket.on('updatemessage', function(data)
+{
+
+for(var v in $scope.messages[data.MSG_ROOMID])
+{
+  if($scope.messages[data.MSG_ROOMID][v]['_id'] == data.id)
+  {
+    $scope.messages[data.MSG_ROOMID][v]['MSG_EDIT'] = 1;
+    $scope.messages[data.MSG_ROOMID][v]['MSG_TEXT'] = data.MSG_TEXT;
+  }
+
+}
+$scope.$apply();
+});
+
+// group typing update
+
+socket.on('grouptyping',function(data)
+{
+var user = data.sendername;
+//console.log($scope.grouptypinguser.indexOf(user));
+if(data.type == 'stoppedtyping')
+$scope.grouptypinguser.splice($scope.grouptypinguser.indexOf(user),1);
+else
+{
+  if($scope.grouptypinguser.indexOf(user) == -1)
+  {
+    $scope.grouptypinguser.push(user);
+  }
+}
+});
+
+$scope.groupupdateTyping = function ()
+{
+if (!$scope.typing)
+{
+  $scope.typing = true;
+  socket.emit('groupstartTyping', { roomId:$scope.roomId,sendername:$scope.username });
+}
+
+$scope.lastTypingTime = (new Date()).getTime();
+
+$interval(function()
+{
+  var typingTimer = (new Date()).getTime();
+  var timeDiff    = typingTimer - $scope.lastTypingTime;
+  if (timeDiff   >= $scope.typingLENGTH && $scope.typing) {
+    //console.log('stopeed');
+    socket.emit('groupstopTyping', { type:'stoptyping', roomId:$scope.roomId,sendername:$scope.username });
+    $scope.t = 0;
+
+    $scope.typing = false;
+  }
+},$scope.typingLENGTH);
+}
+
+///group typing update
+
+$scope.updateTyping = function ()
+{
+var typingTimer = (new Date()).getTime()
+
+var timeDiff    = typingTimer - $scope.lastTypingTime;
+if (!$scope.typing)
+{
+  $scope.typing = true;
+  //	socket.emit('statusupate', { senderId:$scope.userId,rec:$scope.selectedContactid,status:1});
+  socket.emit('startTyping', { roomId:$scope.roomId,sendername:$scope.username });
+  $scope.getunreadmsg();
+}
+
+$scope.lastTypingTime = (new Date()).getTime();
+
+$interval(function(){
+
+  var typingTimer = (new Date()).getTime();
+  var timeDiff    = typingTimer - $scope.lastTypingTime;
+  if (timeDiff   >= $scope.typingLENGTH && $scope.typing) {
+    socket.emit('stopTyping', { roomId:$scope.roomId,sendername:$scope.username });
+    $scope.t = 0;
+    $scope.typing = false;
+  }
+},$scope.typingLENGTH);
+}
+
+
+
+socket.on('messages', function(msg)
+{
+if(!$scope.messages[msg['MSG_ROOMID']])
+$scope.messages[msg['MSG_ROOMID']] = [];
+$scope.messages[msg['MSG_ROOMID']].push(msg);
+if($scope.person)
+{
+  for(var a in $scope.person)
+  {
+    if($scope.person[a].cid == msg['MSG_SENTBY'])
+    {
+      $scope.person[a]['unread'].push(msg);
+    }
+  }
+}
+$scope.$apply();
+
+});
+
+socket.on('creategroup', function(data)
+{
+//console.log(data);
+angular.element('#groupname').val('');
+$scope.groupname = '';
+angular.element("#group").modal('hide');
+$scope.group.push(data);
+socket.emit('addmember', { GroupId:data._id,UserId:'<?php echo $this->session->userdata['clientloggedin']['id']; ?>'});
+$scope.$apply();
+
+});
+
+
+
+
+
+$http.get("<?php echo base_url(); ?>freelancer/getsession")
+.then(function(response)
+{
+$scope.userId = response.data.userid;
+$scope.userType = response.data.type;
+$scope.username = response.data.name;
+$scope.userimage = response.data.image;
+// console.log($scope.userimage);
+$scope.getperson($scope.userId);
+$scope.userplan($scope.userId);
+
+});
+
+$scope.userplan = function(id)
+{
+
+var obj = { u_id:id  }
+$http({
+  url: '<?php echo base_url(); ?>freelancer/freelancerplan',
+  method: "POST",
+  data: obj,
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+  }
+}).then(function(response){
+
+  $scope.plan = response.data.result;
+});
+}
+
+$scope.chatchange = function(t)
+{
+$scope.chattype = t;
+if($scope.chattype == 2)
+{
+  $scope.getallgroup();
+}
+}
+
+$scope.submitgroup = function()
+{
+$scope.gSubmit = true;
+var error = false;
+$scope.groupname = angular.element('#groupname').val();
+if($scope.groupname == '')
+{
+  error = true;
+}
+if(error == true)
+{
+  return false;
+}
+socket.emit('creategroup', { Name:$scope.groupname,UserId:'<?php echo $this->session->userdata['clientloggedin']['id']; ?>'});
+
+$scope.gSubmit = false;
+}
+
+$scope.milestones.push({
+title : '',
+price : 0,
+task : [
+  {
+    task:'',
+    hours:'',
+    hourlyPrice:'',
+    amount:'',
+  }
+],
+button:'',
+});
+
+$scope.milestoneadd = function ($event)
+{
+$scope.milestones.push({
+  title : '',
+  price : 0,
+  task : [
+    {
+      task:'',
+      hours:'',
+      hourlyPrice:'',
+      amount:'',
+    }
+  ],
+  button:'',
+});
+}
+
+
+$scope.taskadd = function ($key)
+{
+$scope.milestones[$key]['task'].push({
+  task : '',
+  hours:'',
+  hourlyPrice:'',
+  amount:'',
+});
+
+}
+
+$scope.selectgroup = function(id)
+{
+$scope.roomId = id;
+$scope.socketjoingroup($scope.roomId);
+$scope.getchat($scope.roomId);
+}
+
+$scope.deletetask = function ($mkey,$key)
+{
+
+$scope.milestones[$mkey]['task'].splice($key,1);
+$scope.totalmilestone();
+}
+
+$scope.deletemilestone = function ($key)
+{
+//alert($key);
+$scope.milestones.splice($key,1);
+$scope.totalmilestone();
+}
+
+$scope.totalmilestone = function($event)
+{
+$scope.bid = 0;
+
+for(var i in $scope.milestones )
+{
+  $scope.budget = 0;
+  for(var m in $scope.milestones[i]['task'])
+  {
+    // console.log($scope.milestones[i]['task'][m]['amount']);
+    $scope.budget = +$scope.budget + +$scope.milestones[i]['task'][m]['amount'];
+  }
+  // console.log($scope.budget);
+  $scope.milestones[i]['price'] = $scope.budget;
+  $scope.bid = +$scope.bid + +$scope.milestones[i]['price'];
+  $scope.offerTotal = $scope.bid;
+}
+}
+
+$scope.submitproposal = function()
+{
+$scope.submitpro = true;
+var error = false;
+$scope.proposal = angular.element('#proposal').val();
+if($scope.proposal == ''  )
+{
+  error = true;
+}
+
+
+for( var res in $scope.milestones)
+{
+  if($scope.milestones[res]['title'] == '' || $scope.milestones[res]['price'] =='' )
+  {
+    error = true;
+  }
+
+  if($scope.milestones[res]['task'].length != 0)
+  {
+    for(var t in $scope.milestones[res]['task'])
+    {
+      if($scope.milestones[res]['task'][t]['task'] == '' || $scope.milestones[res]['task'][t]['amount'] == '' || $scope.milestones[res]['task'][t]['hours'] == '' || $scope.milestones[res]['task'][t]['hourlyPrice'] == '')
+      {
+        error = true;
+      }
+    }
+  }
+}
+
+if(error == true)
+{
+  return false;
+}
+
+var m = JSON.stringify({ jobId : $scope.offerId,proposalBid :$scope.offerTotal ,proposalDuration : $scope.time ,proposalDescription :$scope.proposal,milestones:$scope.milestones});
+
+angular.element(".preloader").show();
+$http({
+  url: '<?php echo base_url(); ?>freelancer/jobMilestoneCreate',
+  method: "POST",
+  data: m,
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+  }
+}).then(function(response) {
+
+  angular.element(".preloader").hide();
+
+  if(response.data.message == "true")
+  {
+    $scope.person[$scope.selectedContact]['milestone'] = 1;
+    $scope.milestone = 1;
+    angular.element("#milestone").modal('hide');
+    $.notify("Milestone Created Successfully", "success");
+  }
+
+});
+}
+
+$scope.getperson = function(userId)
+{
+$scope.person = [];
+$http({
+  url: 'http://localhost:5000/getfreelancerchatperson?userId='+userId,
+  method: "POST",
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+  }
+}).then(function(response) {
+
+  if(response.data.messages.length > 0)
+  {
+    var p = response.data.messages;
+    var p1 = p.reverse();
+
+
+
+    for(var a in p1)
+    {
+      var db = {};
+      // if(p1[a]['_Id'] == $scope.userId )
+      // {
+        if(p1[a]['_id'] == $scope.userId)
+        {
+          db['cname'] = p1[a]['MSG_SENTTONAME'][0];
+          db['cid'] = p1[a]['MSG_SENTTO'][0];
+          if(p1[a]['MSG_SENTTOIMAGE'][0])
+          {
+          db['clogo'] = p1[a]['MSG_SENTTOIMAGE'][0];
+          }
+          db['fname'] = p1[a]['MSG_SENTBYNAME'][0];
+          db['fid'] = p1[a]['_id'];
+          if(p1[a]['MSG_SENTBYIMAGE'][0])
+          {
+          db['flogo'] = p1[a]['MSG_SENTBYIMAGE'][0];
+          }
+          db['unread'] = 0;
+        }
+        else
+         {
+            db['cname'] = p1[a]['MSG_SENTBYNAME'][0];
+            db['cid'] = p1[a]['_id'];
+            if(p1[a]['MSG_SENTBYIMAGE'][0])
+            {
+            db['clogo'] = p1[a]['MSG_SENTBYIMAGE'][0];
+            }
+            db['fname'] = p1[a]['MSG_SENTTONAME'][0];
+            db['fid'] = p1[a]['MSG_SENTTO'][0];
+            if(p1[a]['MSG_SENTTOIMAGE'][0])
+            {
+            db['flogo'] = p1[a]['MSG_SENTTOIMAGE'][0];
+            }
+            db['unread'] = 0;
+          }
+
+      // }
+
+      var match = false;
+      if($scope.p)
+      {
+        for(var v in $scope.p)
+        {
+          if($scope.p[v].cid == db['cid'])
+          {
+
+            match = true;
+
+          }
+        }
+      }
+
+      if(!match)
+      {
+        $scope.p.push(db);
+      }
+    }
+    $scope.person.unshift(...$scope.p);
+
+
+
+    if($scope.person && $scope.person.length != 0 )
+    {
+      if($scope.person[0]['fid'] != $scope.userId )
+      {
+        if(parseInt($scope.person[0]['fid']) < parseInt($scope.userId))
+        {
+          $scope.roomId = 'Room_'+$scope.userId+'_'+$scope.person[0]['fid'];
+        }
+        else if(parseInt($scope.person[0]['fid']) > parseInt($scope.userId))
+        {
+          $scope.roomId = 'Room_'+$scope.person[0]['fid']+'_'+$scope.userId;
+        }
+        $scope.socketjoinchat($scope.person[0]['fid']);
+        //console.log($scope.person[0]['cid']);
+        $scope.selectchat(0,$scope.person[0]['fid'],'all',$scope.person[0]['friendId']);
+      }
+      else if($scope.person[0]['cid'] != $scope.userId )
+      {
+        if(parseInt($scope.person[0]['cid']) < parseInt($scope.userId))
+        {
+          $scope.roomId = 'Room_'+$scope.userId+'_'+$scope.person[0]['cid'];
+        }
+        else if(parseInt($scope.person[0]['cid']) > parseInt($scope.userId))
+        {
+          $scope.roomId = 'Room_'+$scope.person[0]['cid']+'_'+$scope.userId;
+        }
+
+        $scope.socketjoinchat($scope.person[0]['cid']);
+        $scope.selectchat(0,$scope.person[0]['cid'],'all',$scope.person[0]['friendId']);
+      }
+      $scope.messages[$scope.roomId] = [];
+      $scope.jobtitle = $scope.person[0]['jobtitle'];
+      $scope.contractId = $scope.person[0]['contractId'];
+      $scope.offerId = $scope.person[0]['jobOffer'];
+      $scope.milestone = $scope.person[0]['milestone'];
+      $scope.getchat($scope.roomId);
+      $scope.getunreadmsg();
+
+    }
+
+    $scope.filterValue = 1;
+
+  }
+
+});
+}
+
+
+
+
+
+
+
+$scope.selectchat = function (i,uid,type,friendid)
+{
+$scope.selectedContact = i;
+$scope.selectedContactid = uid;
+$scope.getmessage(uid,type,$scope.userId,friendid);
+$scope.jobtitle = $scope.person[i]['jobtitle'];
+$scope.selectedContactImage = $scope.person[i]['clogo'];
+$scope.socketjoinchat($scope.selectedContactid);
+
+if(parseInt($scope.selectedContactid) < parseInt($scope.userId))
+{
+  $scope.roomId = 'Room_'+$scope.userId+'_'+$scope.selectedContactid;
+}
+else if(parseInt($scope.selectedContactid) > parseInt($scope.userId))
+{
+  $scope.roomId = 'Room_'+$scope.selectedContactid+'_'+$scope.userId;
+}
+$scope.getchat($scope.roomId);
+$scope.messages[$scope.roomId] = [];
+$scope.getunreadmsg();
+}
+
+
+
+$scope.request = function(id,status)
+{
+
+var friendId = $scope.person[id]['friendId'];
+var d = JSON.stringify({ friendId : friendId,friendStatus : status});
+
+$http({
+  url: '<?php echo base_url(); ?>freelancer/friendrequest',
+  method: "POST",
+  data: d,
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+  }
+}).then(function(response) {
+
+  if(response.data.message == "true")
+  {
+    if(response.data.status == 1)
+    {
+      $.notify("Request accepted successfully", "success");
+    }
+    else if(response.data.status == 2)
+    {
+      $.notify("Request Reject Successfully", "success");
+    }
+
+    $scope.person[id]['status'] = response.data.status;
+  }
+
+});
+
+}
+
+
+
+$scope.sendmessage = function(uid,name,friendId)
+{
+error = false;
+var msgtext = angular.element('.msgtext').val();
+
+if($scope.userId =='' || uid == '' )
+{
+  error = true;
+}
+
+if(msgtext == '' && $scope.attachment == '')
+{
+  error = true;
+}
+//console.log(error);
+if(error == true)
+{
+  return false;
+}
+socket.emit('message', { MSG_SENTBYNAME:$scope.username,MSG_SENTBYIMAGE:$scope.userimage,MSG_SENTBY: '<?php echo $this->session->userdata['clientloggedin']['id']; ?>',MSG_SENTTONAME:name,  MSG_SENTTO : uid,MSG_SENTTOIMAGE:$scope.image,MSG_TEXT : msgtext,MSG_ATTACHMENT:$scope.attachment,MSG_ROOMID :$scope.roomId,MSG_SENTTOIMAGE:$scope.selectedContactImage ,MSG_DELETE : 0 ,MSG_EDIT: 0,MSG_STATUS:0,MSG_TYPE:1});
+angular.element('.msgtext').val('');
+$scope.attachment ='';
+
+
+}
+
+$scope.groupMessageSend = function(id)
+{
+error = false;
+var msgtext = angular.element('.msgtext').val();
+
+if($scope.userId =='' )
+{
+  error = true;
+}
+
+if(msgtext == '' && $scope.attachment == '')
+{
+  error = true;
+}
+
+if(error == true)
+{
+  return false;
+}
+socket.emit('groupmessage', { MSG_SENTBYNAME:$scope.username,MSG_SENTBYIMAGE:$scope.userimage, MSG_SENTBY: '<?php echo $this->session->userdata['clientloggedin']['id']; ?>',MSG_SENTTONAME:'',  MSG_SENTTO : '',MSG_SENTTOIMAGE:'',MSG_TEXT : msgtext,MSG_ATTACHMENT:$scope.attachment,MSG_ROOMID :id,MSG_SENTTOIMAGE:'' ,MSG_DELETE : 0 ,MSG_EDIT: 0});
+angular.element('.msgtext').val('');
+$scope.attachment ='';
+}
+
+$scope.messageEdit = function(key,id)
+{
+$scope.edit = 1;
+$scope.editmsgId = id;
+$scope.editmsg = $scope.messages[$scope.roomId][key]['MSG_TEXT'];
+//console.log($scope.editmsg);
+$(".editmsg"+id).attr('contenteditable','true');
+$(".editmsg"+id).addClass("editedmsg");
+}
+
+$scope.groupmessageEdit = function(key,id)
+{
+$scope.edit = 1;
+$scope.editmsgId = id;
+$scope.editmsg = $scope.messages[$scope.roomId][key]['MSG_TEXT'];
+//console.log($scope.editmsg);
+$(".editmsg"+id).attr('contenteditable','true');
+$(".editmsg"+id).addClass("editedmsg");
+}
+
+$scope.groupmessageupdate = function(type,id)
+{
+if(type == "update")
+{
+  var msg = $(".editmsg"+id).text();
+
+  if(msg != '' )
+  {
+
+    socket.emit('updatemessage', { id:$scope.editmsgId,MSG_TEXT:msg,MSG_ROOMID:$scope.roomId,MSG_EDIT:1});
+    $scope.edit = '';
+    $scope.editmsgId = '';
+    $(".editmsg"+id).attr('contenteditable','false');
+    $(".editmsg"+id).removeClass("editedmsg");
+
+  }
+
+}
+else if(type == "cancel")
+{
+  $(".editmsg"+id).text($scope.editmsg);
+  $scope.edit = '';
+  $scope.editmsgId = '';
+  $(".editmsg"+id).attr('contenteditable','false');
+  $(".editmsg"+id).removeClass("editedmsg");
+}
+}
+
+$scope.messageUpdate = function(type,id)
+{
+if(type == "update")
+{
+  var msg = $(".editmsg"+id).text();
+
+  if(msg != '' )
+  {
+    socket.emit('updatemessage', { id:$scope.editmsgId,MSG_TEXT:msg,MSG_ROOMID:$scope.roomId,MSG_EDIT:1});
+    $scope.edit = '';
+    $scope.editmsgId = '';
+    $(".editmsg"+id).attr('contenteditable','false');
+    $(".editmsg"+id).removeClass("editedmsg");
+  }
+}
+else if(type == "cancel")
+{
+  $(".editmsg"+id).text($scope.editmsg);
+  $scope.edit = '';
+  $scope.editmsgId = '';
+  $(".editmsg"+id).attr('contenteditable','false');
+  $(".editmsg"+id).removeClass("editedmsg");
+}
+
+}
+
+$scope.messageDelete = function(key,id)
+{
+socket.emit('deletemessage', { id:id,MSG_DELETE:1,MSG_ROOMID:$scope.roomId});
+}
+
+$scope.deleteAttachment = function ()
+{
+$scope.attachment ='';
+}
+
+/// attchment upload
+$scope.chatAttachment = function ($event) {
+$scope.attch = true;
+var files =$event.files;
+for (var i = 0; i < files.length; i++) {
+  var f = files[i]
+  var fileName = files[i].name;
+  var filePath = fileName;
+  //console.log(filePath);
+  var fileReader = new FileReader();
+  fileReader.onload = (function(e) {
+    var d = JSON.stringify({ image :  e.target.result,name : filePath });
+    $http({
+      url: '<?php echo base_url(); ?>chatAttachment',
+      method: "POST",
+      data: d,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      }
+    }).then(function(response) {
+      $scope.attachment = response.data;
+      $scope.attch = false;
+    });
+
+  });
+  fileReader.readAsDataURL(f);
+}
+
+}
+/// attchment upload
+
+///person filter
+// chat person filter
+$scope.personFilter = function()
+{
+
+var d = JSON.stringify({ filter :  $scope.filterValue ,userId:$scope.userId });
+$scope.person = [];
+$http({
+  url: '<?php echo base_url(); ?>freelancer/chatpersonFilter',
+  method: "POST",
+  data: d,
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+  }
+}).then(function(response) {
+
+  $scope.person = response.data.person;
+
+  if($scope.person && $scope.person.length != 0 )
+  {
+    if($scope.person[0]['fid'] != $scope.userId )
+    {
+      //  console.log("freelancer");
+      $scope.selectchat(0,$scope.person[0]['fid'],'all',$scope.person[0]['friendId']);
+    }
+    else if($scope.person[0]['cid'] != $scope.userId )
+    {
+      //  console.log("client");
+      $scope.selectchat(0,$scope.person[0]['cid'],'all',$scope.person[0]['friendId']);
+    }
+  }
+
+});
+
+}
+
+$scope.getchat = function(roomId)
+{
+$scope.messages[roomId] = [];
+// var m = JSON.stringify({ roomId :roomId});
+$http({
+  url: 'https://top-seo-sockets.herokuapp.com/get-firm-messages?roomId='+roomId,
+  method: "GET",
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+  }
+}).then(function(response) {
+
+
+  if(response.data.messages.length > 0)
+  {
+    if(!$scope.messages[response.data.messages[0]['MSG_ROOMID']])
+    $scope.messages[response.data.messages[0]['MSG_ROOMID']] = [];
+    $scope.messages[response.data.messages[0]['MSG_ROOMID']] = response.data.messages.reverse();
+    //console.log($scope.messages);
+  }
+
+});
+}
+
+$scope.getunreadmsg = function()
+{
+$http({
+  url: 'http://localhost:5000/personalmsg-unread?rec='+$scope.userId+'&&status=0',
+  method: "POST",
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+  }
+}).then(function(response) {
+
+  if($scope.person)
+  {
+    for(var a in $scope.person)
+    {
+      $scope.person[a]['unread'] = [];
+
+      if(response.data.messages.length > 0)
+      {
+        $scope.person[a]['unread'] = [];
+
+        for(var m in response.data.messages)
+        {
+          if($scope.person[a].cid == response.data.messages[m]['MSG_SENTBY'])
+          {
+
+            $scope.person[a]['unread'].push(response.data.messages[m]);
+          }
+        }
+      }
+
+    }
+    //socket.emit('statusupate', { senderId:$scope.userId,rec:$scope.person[0].fid,status:1});
+  }
+
+});
+}
+
+
+$scope.getallgroup = function()
+{
+$scope.group = [];
+// var m = JSON.stringify({ roomId :roomId});
+$http({
+  url: 'http://localhost:5000/get-all-group?userId='+$scope.userId,
+  method: "GET",
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+  }
+}).then(function(response) {
+
+  if(response.status == 200)
+  {
+    if(response.data.group.length != 0 )
+    {
+
+      $scope.group = response.data.group.reverse();
+      $scope.roomId = $scope.group[0]._id;
+      $scope.socketjoingroup($scope.roomId);
+      $scope.getchat($scope.roomId);
+
+    }
+  }
+
+});
+}
+
+$scope.memberAddGroup = function(key)
+{
+var obj = { };
+obj['friendId'] =  $scope.person[key].friendId;
+obj['userId'] =    $scope.person[key].cid;
+obj['image'] =     $scope.person[key].clogo;
+obj['name'] =      $scope.person[key].cname;
+obj['GroupId'] =   $scope.roomId;
+
+
+var match = false;
+if($scope.selectmember)
+{
+  for(var c in $scope.selectmember)
+  {
+    if($scope.selectmember[c]['userId'] == obj['userId'])
+    {
+      match = true;
+    }
+  }
+}
+
+if(!match)
+{
+  $scope.selectmember.push(obj);
+  $scope.person[key].select = 1;
+}
+}
+
+$scope.memberRemove =  function(key)
+{
+var frndId = $scope.selectmember[key].friendId;
+for(var c in $scope.person)
+{
+  if($scope.person[c].friendId == frndId)
+  {
+    $scope.person[c].select = 0;
+  }
+}
+$scope.selectmember.splice(key,1);
+
+}
+
+$scope.submitmember = function()
+{
+$scope.data = [];
+$scope.csubmit = true;
+error = false;
+
+if($scope.selectmember.length == 0)
+{
+  error = true;
+}
+
+if(error == true)
+{
+  return false;
+}
+
+for(var c in $scope.selectmember)
+{
+  var a = {};
+  a['GroupId'] = $scope.selectmember[c].GroupId;
+  a['UserId'] = $scope.selectmember[c].userId;
+  $scope.data.push(a);
+}
+socket.emit('addmember',$scope.data);
+$scope.selectmember = [];
+}
+
+
+// get last message
+
+
+$scope.lastMessages = function()
+{
+
+$http({
+  url: 'http://localhost:5000/last-msg?com='+$scope.roomId+'&&skip='+$scope.messages[$scope.roomId].length+'&&limit=10',
+  method: "POST",
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+  }
+}).then(function(response) {
+  if(response.data == "message")
+  {
+
+    if(response.data.messages.length != 0)
+    {
+      var msg = response.data.messages;
+      var msg1 = msg.reverse();
+      $scope.messages[$scope.roomId].unshift(...msg1);
+
+    }
+  }
+});
+}
+
+});

@@ -1,0 +1,24 @@
+Sitemap: https://www.top-seos.com/sitemap.xml
+
+User-agent: *
+Disallow: /assets/
+Disallow: /admin/
+Disallow: /freelancer/
+Disallow: /getservices
+Disallow: /getcountry
+Disallow: /gettype
+Disallow: /getfreelancer
+Disallow: /getservices
+Disallow: /getfindWorks
+Disallow: /clientjobs
+Disallow: /client-getjobdetail
+Disallow: /client-getcontractdetail
+Disallow: /client-getsession
+Disallow: /client-review
+Disallow: /client-milestoneRequest
+Disallow: /client-comment-submit
+Disallow: /client-getcontract
+Disallow: /requestquote
+Disallow: /question
+Disallow: /loginUser
+Disallow: /register-user

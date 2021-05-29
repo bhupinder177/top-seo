@@ -1,0 +1,223 @@
+@media(max-width:1440px){.work-circle h2::before{width:263px;height:263px;}
+.work-circle ul li{width:18.54%;}
+.free-bx{margin:1%;width:23%;padding:0 10px;}
+.industry-sec{background-size:31% auto;}
+.banner-sec{height:381px !important;}
+.team-bx{width:19%;}
+.rank-details .rank-bx{min-height:160px;}
+.rank-bx.first{width:57px;}
+.rank-bx.second{width:20.88%;}
+.jobtitle{font-size:15px;}
+}
+@media(max-width:1366px){.rank-bx.second{width:20.5%;}
+.rank-details .rank-bx, .rank-details p, .rank-details a, .rank-details p span{font-size:12px;}
+}
+@media(max-width:1280px){.rank-details .rank-bx{min-height:151px;}
+.freelace-search-sec{padding-bottom:0;}
+.work-circle ul li{width:18%;}
+.work-circle h2{font-size:14px;}
+.work-circle ul li p{font-size:13px;}
+.work-circle h2::before{width:230px;height:240px;}
+.banner-sec{height:337px !important;}
+.team-bx{width:18.25%;padding:0;margin:10px;}
+.rank-bx.second{width:20.4%;}
+.jobtitle, .job-bx .date{font-size:13px;}
+}
+@media(max-width:1024px){.rank-main-info{overflow-x:scroll;}
+.rank-info{min-width:1500px;}
+.rank-details .rank-bx{min-height:140px;}
+.work-circle h2::before{width:204px;height:209px;}
+.free-bx:nth-child(4n){margin-right:0;}
+.work-circle ul li{width:19%;margin-right:12px;}
+.popup a{font-size:12px;}
+.profile-listing-sec .visit-web{padding:3px 9px;}
+.bg-blue-theme div{font-size:12px;padding:5px !important;}
+.work-circle h2{font-size:17px;margin:5px 0;}
+.freelance-world-sec h2{padding-bottom:40px;}
+.freelace-search-sec{padding-bottom:0px;}
+.free-bx{padding:11px 13px;}
+.industry-bx .btn.hire-btn, .btn.hire-btn{font-size:15px;margin:0;}
+.right-cont p{min-height:80px;}
+.test-img{top:19px;width:274px;height:274px;}
+.img-circle{width:100%;}
+.carousel-inner{width:57%;}
+.banner-sec{height:276px !important;}
+.team-bx{width:24%;margin-right:9px;}
+.contact-info-sec .talk a{padding:13px 0 13px 84px}
+.banner-btm-search h1, .how-it-work-sec h1, .freelance-world-sec h2, .industry-sec h3, .testimonial-sec h4{font-size:28px;}
+.ssBox .ssName h4{font-size:17px;}
+}
+@media(max-width:991px){.col-sm-offset-3{margin-left:24% !important;}
+.ssBox .ssName h4{color:#fff;font-size:16px;}
+.work-circle ul{padding:0;}
+.how-it-work-sec h1, .freelance-world-sec h2, .industry-sec h3, .testimonial-sec h4{font-size:25px;padding-bottom:40px;}
+.how-it-work-sec{padding:40px 0;}
+.banner-sec{height:208px !important;}
+.banner-btm .btn{padding:13px 27px;font-size:24px;}
+.team-bx{width:32.33%;margin-right:9px;}
+.team-bx:nth-child(3){margin-right:0;}
+.right-side-info ul li{margin-right:18px;min-height:134px !important;}
+.contact-info-sec .talk a{padding:13px 0 13px 49px;background:url(../images/talk-bg.png) no-repeat 7px center;font-size:11px;background-size:20%;}
+.contact-info-sec .talk a span{font-size:16px;}
+.work-circle h2{font-size:17px;}
+.work-circle ul li p{padding:4px 12px;}
+.work-circle h2::before{width:100%;height:240px;display:none;}
+.work-circle ul li{width:48%;min-height:211px;padding:15px;margin-right:13px;}
+.work-circle ul li:last-child{width:98%;}
+.freelance-world-sec{padding:40px 0;}
+.freelance-world-sec h2{padding-bottom:30px;}
+.work-circle h2 br{display:none;}
+.free-bx{margin-right:0;width:31.3%;margin:1%;}
+.industry-bx .btn.hire-btn, .btn.hire-btn{font-size:12px;margin:0;padding:10px 15px;width:auto;}
+.right-cont h4{font-size:13px;}
+.right-cont p{min-height:120px;}
+.how-it-work-sec .col-md-12.col-sm-12.col-xs-12.forms.login-form{width:100% !important;margin-left:0 !important;padding:35px 0;margin-bottom:0 !important;}
+.left-side-info a{font-size:11px;}
+.left-side-info ul li{font-size:12px;}
+.user-bx h1{font-size:16px;}
+.user-bx p{font-size:11px;}
+.contact-info-sec ul li a{font-size:16px;}
+.contact-info-sec ul li{width:23.5%;}
+.company-info-tab .nav > li > a{padding:10px 5px;}
+.box-1{width:31% !important;float:left;}
+.mod-contact-exec.cboxElement, .hireme{padding:5px 10px;font-size:10px;}
+.footer-bx img{width:100%;}
+.footer-bx h5{font-size:15px;margin-bottom:19px;}
+.footer-bx ul li a{font-size:14px;}
+.footer-bx ul li{padding-bottom:5px;}
+.price-bx{margin-bottom:15px;}
+.team-bx{width:28.4%;}
+.login-register ul li a{padding:15px 5px;font-size:14px;}
+.navbar-brand>img{width:180px;}
+.right-side-info ul li{width:30% !important;}
+}
+@media(max-width:767px){header .nav li{display:block;text-align:center;}
+.ranking-page-sec .freelace-search-sec, .hire-main-sec .freelace-search-sec{display:none;}
+.comingsoon .error-sec{padding:15px 150px !important;}
+.rank-bx a{display:inline-block;}
+.preloader{padding:70% 0;}
+.notifyjs-corner{right:0 !important;left:0 !important;top:52px !important;text-align:center;position:absolute !important;}
+.notifyjs-corner span{font-size:12px;}
+.btn-group.dropup .chattoggle{width:40%;}
+.btn-group.dropup{right:-32px !important;}
+.testimonial-sec p{color:#fff;font-size:13px;}
+.testimonial-sec small{margin:10px 0 0;font-size:20px;}
+.testimonial-sec span{font-size:13px;margin-bottom:6px;display:block;}
+.work-circle ul li:nth-child(2n){margin-top:0;}
+.how-it-work-sec h2, .freelance-world-sec h3, .industry-sec h4, .testimonial-sec h6{font-size:20px;}
+.banner-btm-search h1{font-size:17px;}
+.top-seo-logo img{width:62px;}
+.login-register{margin:0;position:absolute;left:0;right:0;padding:0;z-index:99;}
+.navbar-nav{margin:7.5px 0;}
+.login-register ul li a{border-bottom:1px solid #eaeaea;}
+.login-form{padding:30px 13px;margin-bottom:25px;}
+.user-bx p{font-size:15px;}
+.left-side-info{margin-bottom:20px;min-height:inherit;}
+.blog-content h1{margin:25px 0;}
+.blog-content p{font-size:13px;text-align:justify;}
+.rank-bx.second{width:21.2%;}
+.popup .col-sm-4{display:inline-block;width:33%;}
+.ranking-page-sec{padding:15px 0;}
+.popup-bx{width:100%;display:none !important;}
+.ranking-page-sec h1 span{font-weight:600;font-size:21px;}
+.profile-listing-sec h1{font-size:21px;}
+.heading-sec span{font-size:18px;}
+.heading-sec h2, .heading-sec p{text-align:justify;}
+.heading-sec h2{text-align:center;}
+#Requestquote .modal-dialog, #Schedule .modal-dialog, #RequestCall .modal-dialog, #teamProfile .modal-dialog, .modal-dialog{width:auto !important;}
+.heading-sec strong{font-size:18px;}
+.team-bx{width:30%;padding:0;margin:8px;}
+.company-info-tab{padding-bottom:15px;}
+.team-bx a.btn.btn-primary{padding:5px 6px;font-size:12px;}
+.how-it-work-sec h1, .freelance-world-sec h2, .industry-sec h3, .testimonial-sec h4{font-size:27px;}
+.how-it-work-sec h1{font-size:25px;padding-bottom:30px;}
+.how-it-work-sec{padding:30px 0;}
+.work-circle ul{float:left;padding:0 !important;}
+.work-circle ul li{width:100%;min-height:inherit;margin-right:0;box-shadow:0 2px 12px #cbcbcb;margin-bottom:15px;padding:15px;}
+.banner-btm{padding:12px 0;}
+.banner-btm .btn{padding:7px 25px;font-size:19px;}
+.ssBox .ssName h4{font-size:20px;}
+.carousel-inner{width:50% !important;}
+.fdot{right:93px;}
+.company-info-tab .tab-content .col-md-12, .company-info-tab .tab-content .col-md-4{padding:0;}
+.profile-section .box-1{width:100% !important;margin-bottom:15px;padding:15px !important;}
+.login-form h2{margin-top:0;font-size:24px;}
+.freelace-search-sec select{font-size:15px;}
+.footer-bx{display:none;}
+.testimonial-sec{padding:0;}
+footer{padding:0;margin:0;background:#878787;float:left;width:100%;}
+.left-side-info ul li, .left-side-info a{font-size:14px;}
+.industry-sec{background:none;}
+.industry-m-bx{width:100%;}
+.test-img{top:35px;width:247px;height:247px;}
+.bg-blue-theme div{font-size:15px;padding:15px !important;border-bottom:1px solid #fff;min-height:auto;}
+#Requestquote .modal-dialog, #Schedule .modal-dialog, #RequestCall .modal-dialog{width:auto;}
+.popup .col-sm-3{display:inline-block;padding-bottom:10px;}
+.snap-bx-mid h2{margin:10px 0 10px;font-size:18px;}
+.snap-bx-left .phn{display:block;}
+.snap-bx-right img{width:100%;margin:15px 0 0;}
+.banner-sec{height:172px !important;background-size:100%;}
+.work-circle h2::before{width:100%;height:208px;border:none;}
+.work-circle ul li{width:100%;min-height:235px;margin-right:8px;}
+.work-circle ul li p{padding:4px 27px;}
+.free-bx{margin-right:0;width:48%;margin:1%;}
+.copyright ul li{padding-right:0px;font-size:14px;}
+.right-side-info ul li{min-height:100px !important;}
+.company-info-tab .nav-tabs > li a{font-size:13px;}
+.contact-info-sec .talk a{font-size:9px;}
+.request-address p, .request-btn{text-align:center;}
+.freelace-search-sec ul li{width:24.2%;}
+.btn-sec{margin:15px 0 0}
+.snapshot-sec{margin-bottom:15px;}
+.login-register a{padding:8px 11px;}
+}
+@media(max-width:500px){.comingsoon .error-sec{padding:15px !important;}
+.freelace-search-sec ul{padding:0;}
+.banner-btm .btn{padding:5px 13px;font-size:10px;}
+.login-register a{padding:4px 2px;}
+.fdot{right:113px;}
+.team-bx{width:95%;margin-right:0;}
+.right-cont h4{font-size:17px;}
+.right-side-info ul li{width:100% !important;min-height:inherit !important}
+.contact-info-sec ul li{width:49%;margin-bottom:10px;}
+.company-info-tab .nav-tabs > li{margin-bottom:0;width:33%;text-align:center;}
+#myjobs .nav-tabs > li{margin-bottom:0;width:33.33%;text-align:center;}
+#myjobs .nav-tabs > li:last-child{margin-right:0;}
+.company-info-tab .nav-tabs > li a{font-size:12px;}
+.industry-sec{padding:30px 0 0;}
+.industry-sec h3{padding-bottom:30px;}
+.testimonial-sec h4{padding-bottom:40px;}
+.how-it-work-sec{padding:45px 0 0}
+.how-it-work-sec h1{margin-bottom:25px;padding-bottom:0;}
+.banner-sec{height:95px !important;}
+.work-circle ul li{width:100%;min-height:inherit;margin-right:0;box-shadow:0 2px 12px #cbcbcb;margin-bottom:15px;padding:15px;}
+.work-circle ul li:nth-child(2n){padding-top:15px;}
+.work-circle h2::before{width:100%;border:none;}
+.how-it-work-sec h1, .freelance-world-sec h2, .industry-sec h3, .testimonial-sec h4{font-size:20px;}
+.freelace-search-sec ul li{width:100%;}
+.free-bx{padding:11px 13px;width:100%;}
+.work-circle ul li p{font-size:16px;}
+.industry-sec{background:none;}
+.industry-m-bx, .industry-bx{width:100%;}
+.right-cont p{min-height:inherit;}
+.industry-bx{padding:0px 0px 40px}
+.industry-bx .btn.hire-btn, .btn.hire-btn{width:75%;float:right;}
+#testimonial-carousel{height:520px;}
+#testimonial-carousel .carousel-indicators{width:57%;}
+.testimonial-sec .carousel-inner > .item{padding:306px 0 0;text-align:center;}
+.carousel-inner{width:100% !important;}
+.test-img{top:19px;width:274px;left:12%;height:274px;}
+.btn-sec .btn.hire-btn{float:none;}
+.free-bx strong{padding:0;}
+.blog-bx{margin-bottom:20px;}
+.chat-window{right:20px;}
+}
+@media(max-width:320px){.banner-btm .btn{padding:5px 9px;font-size:10px;}
+.banner-sec{height:87px !important;}
+.test-img{width:240px;height:240px;}
+.contact-info-sec ul li{width:100%;margin-bottom:10px;}
+.contact-info-sec .talk a{background-size:20%;padding:13px 0 13px 70px;}
+.company-info-tab .nav-tabs > li{width:50%;}
+#myjobs .nav-tabs > li a{font-size:13px;}
+.login-register a{padding:8px 2px;font-size:9px;}
+}
